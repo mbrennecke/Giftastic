@@ -1,0 +1,26 @@
+
+
+.bg-light{
+	background-color: #dcbf85!important; 
+	color: #60594d!important; 
+}
+
+.btn-primary {
+	background-color: #93a29b!important;
+	border-color: #93a29b;
+	margin: 2px;
+}
+
+.btn-primary:hover {
+	border-color: #60594d;
+	background-color: #75817c!important;
+}
+
+.gifRow {
+	margin-top: 10px;
+}
+
+p {
+	width: 200px;
+	margin: 10px;
+}
