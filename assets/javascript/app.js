@@ -11,7 +11,9 @@ $(document).ready(function() {
 
         for (var i = 0; i < topics.length; i++) {
           var butts = $("<button>");
-          butts.addClass("gif-btn btn btn-primary btn-sm");
+          butts.addClass("gif-btn btn btn-primary btn-sm active");
+		  butts.attr("aria-pressed","true");
+		  butts.attr("role", "button");
           butts.attr("data-name", topics[i]);
           butts.text(topics[i]);
           $("#buttons-list").append(butts);
@@ -21,23 +23,23 @@ $(document).ready(function() {
 	function generateMatrix(response) {
 		$("#gif-view").empty();
 		for (var i=0; i < limit; i++){
-			var rowNum = "row"+rowInc;
-			console.log(rowNum);
-			var rowNumCls = "."+rowNum;
-			var row = $("<div class='" + rowNum + "'>");
-			var col = $("<div class='col-sm-4'>");
-			//think i may need to run another loop to fill the row
-			//need to do the math on i or something for that
-			if(i%3==0){ 
-				$("#gif-view").append(row); 
-				rowInc++;
-			}
-			var rating = response.data[i].rating;
-			var ratingGif = $("<p>").text("Rating: "+rating);
-			var stillURL = response.data[i].images.fixed_width_still.url;
-			var stillGif = $("<img>").attr("src", stillURL);
-			col.append(ratingGif, stillGif);
-			$(rowNumCls).append(col);
+			
+			var row = $("<div class='row'>");
+			
+			$("#gif-view").append(row);
+				for (var j=0; j<3; j++){
+					if (!response.data[i]){return;}
+					var col = $("<div class='col-sm-4'>");
+					var rating = response.data[i].rating;
+					var ratingGif = $("<p>").text("Rating: "+rating);
+					var stillURL = response.data[i].images.fixed_width_still.url;
+					var stillGif = $("<img>").attr("src", stillURL);
+					col.append(stillGif, ratingGif);
+					$(row).append(col);
+					i++;
+					console.log(i);
+				}
+				i--;
 		};
 	}
 	  

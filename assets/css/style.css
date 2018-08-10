@@ -8,12 +8,20 @@
 .btn-primary {
 	background-color: #93a29b!important;
 	border-color: #93a29b;
-	margin: 2px;
+	margin:2px;
 }
 
 .btn-primary:hover {
 	border-color: #60594d;
 	background-color: #75817c!important;
+}
+
+.btn .active {
+	border-color: #93a29b!important;
+}
+
+#button-list {
+	margin: 0 5px;
 }
 
 .gifRow {
@@ -23,4 +31,8 @@
 p {
 	width: 200px;
 	margin: 10px;
+}
+
+.row {
+	margin-bottom: 10px;
 }
