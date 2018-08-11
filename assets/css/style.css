@@ -8,7 +8,7 @@
 .btn-primary {
 	background-color: #93a29b!important;
 	border-color: #93a29b;
-	margin:2px;
+	margin: 0 2px;
 }
 
 .btn-primary:hover {
@@ -16,12 +16,14 @@
 	background-color: #75817c!important;
 }
 
-.btn .active {
-	border-color: #93a29b!important;
+.btn-primary.active {
+	border-color: #8b635c!important;
+	outline: none !important;
+   box-shadow: none;
 }
 
 #button-list {
-	margin: 0 5px;
+	margin: 5px auto;
 }
 
 .gifRow {
@@ -39,4 +41,22 @@ p {
 
 .col-marg {
 
+}
+
+.form-control {
+	border-color: #dcbf85;
+}
+
+.btn {
+	border-color: #8b635c;
+}
+
+.btn:focus,.btn:active, .form-control:active, .form-control:focus {
+   outline: none!important;
+   box-shadow: none!important;
+   border-color: #60594d;
+}
+
+#add-more {
+	margin-top: 10px;
 }

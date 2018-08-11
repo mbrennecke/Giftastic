@@ -15,13 +15,24 @@
 	<nav class="navbar navbar-light bg-light">
 			<span class="navbar-brand mb-0 h1">GifTastic</span>
 	</nav>
-	<div class="main container">
-		<div class="row">
+	<div class="container">
+		<div class="row button-row">
 			<div id="buttons-list"></div>
 		</div>
+	</div>
+	<div class="main container">
 		<div class="row gifRow">
-			<div class="col-sm-4 col order-last">col-sm-4</div>
-			<div class="col-sm-8 col order-first" id="gif-view">col-sm-8</div>
+			<div class="col-lg-4 col order-last">
+				<form>
+					<div class="form-group">
+						<label for="add-gif-input">Add a subject</label>
+						<input type="text" class="form-control" id="add-gif-input"  >
+					</div>
+					<button type="submit" class="btn btn-primary" id="add-gif">Submit</button>
+				</form>
+				<button type="button" class="btn btn-primary btn-lg btn-block" id="add-more">Add more GIFs</button>
+			</div>
+			<div class="col-lg-8 col order-first" id="gif-view"></div>
 			
 		</div>
 	</div>
