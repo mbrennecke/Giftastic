@@ -12,8 +12,24 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-light bg-light">
-			<span class="navbar-brand mb-0 h1">GifTastic</span>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container">
+			<h1 class="navbar-brand">Giftastic</h1>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+				  <a class="nav-item nav-link" id="nav-gif" href="#">GIFs <span id="gif-span"></span></a>
+				  <a class="nav-item nav-link" id="nav-movies" href="#">Movies<span id="movies-span"></span></a>
+				  <a class="nav-item nav-link" id="nav-games" href="#">Games<span id="games-span"></span></a>
+				</div>
+			</div>
+			<form class="form-inline my-2 my-lg-0">
+				<input type="text" class="form-control" id="add-gif-input" placeholder="Add a subject" >
+				<button type="submit" class="btn btn-primary btn-sm " id="add-gif">Add</button>
+			</form>
+		</div>	
 	</nav>
 	<div class="container">
 		<div class="row button-row">
@@ -22,17 +38,7 @@
 	</div>
 	<div class="main container">
 		<div class="row gifRow">
-			<div class="col-lg-4 col order-last">
-				<form>
-					<div class="form-group">
-						<label for="add-gif-input">Add a subject</label>
-						<input type="text" class="form-control" id="add-gif-input"  >
-					</div>
-					<button type="submit" class="btn btn-primary" id="add-gif">Submit</button>
-				</form>
-				<button type="button" class="btn btn-primary btn-lg btn-block" id="add-more">Add more GIFs</button>
-			</div>
-			<div class="col-lg-8 col order-first" id="gif-view"></div>
+			<div class="col-lg-12" id="gif-view"></div>
 			
 		</div>
 	</div>
@@ -41,6 +47,7 @@
 
 
 <script src="assets/javascript/app.js"></script>
+
 </body>
 
 </html>

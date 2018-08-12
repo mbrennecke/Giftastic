@@ -8,7 +8,7 @@
 .btn-primary {
 	background-color: #93a29b!important;
 	border-color: #93a29b;
-	margin: 0 2px;
+	margin: 5px 2px 0;
 }
 
 .btn-primary:hover {
@@ -22,25 +22,17 @@
    box-shadow: none;
 }
 
-#button-list {
-	margin: 5px auto;
+#buttons-list {
+	margin: 0 auto;
 }
 
 .gifRow {
-	margin-top: 10px;
+	margin: 10px auto;
 }
 
 p {
 	width: 200px;
 	margin: 10px;
-}
-
-.row {
-	margin-bottom: 10px;
-}
-
-.col-marg {
-
 }
 
 .form-control {
@@ -59,4 +51,24 @@ p {
 
 #add-more {
 	margin-top: 10px;
+}
+
+.card {
+	margin: 5px;
+	width: 200px;
+}
+
+h5.card-body {
+	padding: 0 10px;
+}
+
+h2 {
+	font-size: .5em;
+	color: rgba(0,0,0,.9);
+}
+
+h1.navbar-brand {
+	margin:0;
+	padding: .325rem 1rem;
+	font-size: 1.5em;
 }
