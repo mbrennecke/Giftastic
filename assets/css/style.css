@@ -7,7 +7,6 @@
 
 .btn-primary {
 	background-color: #93a29b!important;
-	border-color: #93a29b;
 	margin: 5px 2px 0;
 }
 
@@ -37,6 +36,7 @@ p {
 
 .form-control {
 	border-color: #dcbf85;
+	height: calc(2rem + 2px);
 }
 
 .btn {
@@ -55,7 +55,6 @@ p {
 
 .card {
 	margin: 5px;
-	width: 200px;
 }
 
 h5.card-body {
@@ -71,4 +70,12 @@ h1.navbar-brand {
 	margin:0;
 	padding: .325rem 1rem;
 	font-size: 1.5em;
+}
+
+#add-btn {
+	margin-top: 0;
+}
+
+#data-view {
+	margin: 0 auto;
 }

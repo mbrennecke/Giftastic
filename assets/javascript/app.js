@@ -1,61 +1,81 @@
 $(document).ready(function() {
 	
+	//Default selection for GIFs
 	var topicsGif = ["photography", "jewelry", "minecraft", "skyrim", "colors", "art", "star wars", "dungeons and dragons", "games", "fossils", "minerals", "dragons"];
+	//Default selection for movies
+	var titlesMovies = ["Blade Runner", "Star Wars", "Buckaroo Banzai", "Zardoz", "The Fall", "Cowboy Bebop", "Jesus Christ Superstar", "Hoodwinked", "Dark Crystal", "Legend"];
+	//Default selection for games
+	var titlesGames = ["Morrowind", "Skyrim", "Beyond Good and Evil", "Mass Effect", "Lego City Undercover", "Silent Hill", "Metal Gear Solid", "Grand Theft Auto 3", "Star Wars Knights of the Old Republic"];
 	var result;
 	var gif;
 	var offset = 0;
+	var addBtnArr = "topicsGif";
+	var card;
+	var cardBody;
+	var cardImage;
 
-
+	//Function to create the GIF buttons
+	function renderGifButtons() {
+		renderButtons("gif-btn", topicsGif);
+	}
 	
-	function renderButtons() {
-
+	//Function to create the GIF buttons
+	function renderMoviesButtons() {
+		renderButtons("movies-btn", titlesMovies);
+	}
+	
+	//Function to create the GIF buttons
+	function renderGamesButtons() {
+		renderButtons("games-btn", titlesGames);
+	}
+	
+	function renderButtons(buttonChg, arr) {
+		//clears the list so that it doesn't keep adding on to it
         $("#buttons-list").empty();
-
-        for (var i = 0; i < topicsGif.length; i++) {
-          var butts = $("<button>");
-          butts.addClass("gif-btn btn btn-primary btn-sm active");
-		  butts.attr("aria-pressed","true");
-		  butts.attr("role", "button");
-          butts.attr("data-name", topicsGif[i]);
-          butts.text(topicsGif[i]);
-          $("#buttons-list").append(butts);
+		//loops through and creates the buttons and adds the needed classes and stuff
+        for (var i = 0; i < arr.length; i++) {
+			var butts = $("<button>");
+			butts.addClass(buttonChg);
+			butts.addClass("btn btn-primary btn-sm active");
+			butts.attr("aria-pressed","true");
+			butts.attr("role", "button");
+			butts.attr("data-name", arr[i]);
+			butts.text(arr[i]);
+			$("#buttons-list").append(butts);
         }
       }
 	 
-	function cardHeightFunc(height){
-		$(".card").css({'height':height});
-	}
+	 //generates generic card with classes
+	 function cardGen(){
+		 card = $("<div class='card float-left'>");
+		 cardImage = $("<img class='card-img-top'>");
+		 cardBody = $("<div class='card-body'>");
+	 }
 	 
+	//function that generates the matrix display for GIFs
 	function generateMatrix() {
 		var cardHeightMax = 0;
 		var cardImgHeight = 0;
 		
-		
-		
 		for (var i=0; i < result.length; i++){
-			
-			//create a card to hold the gif and data
-			var gifCard = $("<div class='card float-left'>");
-			
+			//generates card
+			cardGen();
 			//creates the title for the gif
 			var title = result[i].title;
 			
-			//gets the value for the still image
+			//gets the value for the still image name, allows a fixed width for cards
 			var stillURL = result[i].images.fixed_width_still.url;
 			
-			//create the img element for the card and assign attr's
-			var gifImage = $("<img>").attr("src", stillURL);
-			gifImage.attr("data-still", stillURL);
-			gifImage.attr("data-state", "still");
-			gifImage.attr("class", "gif card-img-top");
-			gifImage.attr("alt", title);
+			//modifies the img element for the card with specific attr's and classes
+			cardImage.attr("src", stillURL);
+			cardImage.attr("data-still", stillURL);
+			cardImage.attr("data-state", "still");
+			cardImage.attr("class", "gif");
+			cardImage.attr("alt", title);
 			
 			//creates the animated version for the gif
-			var movingGif = gifImage.attr("data-animated", result[i].images.fixed_width.url);
-			
-			//creates the card body div
-			var cardBody = $("<div class='card-body'>");
-			
+			var movingGif = cardImage.attr("data-animated", result[i].images.fixed_width.url);
+
 			// creates the element and text for the title of the gif
 			var gifTitle = $("<h5 class='card-body'>").text(title);
 			
@@ -78,14 +98,14 @@ $(document).ready(function() {
 			cardBody.append(gifTitle, ratingGif, dlGif);
 			
 			//add gif and cardbody to card
-			gifCard.append(cardBody)
+			card.append(cardBody)
 			
 			//add gifs to containing div for display
 			//also allows newly grabbed divs to be displayed above
-			$("#gif-view").prepend(gifCard);
+			$("#data-view").prepend(card);
 					
 			//get card height to fit all to screen more prettily
-			var cardHeight = $(gifCard).height();
+			var cardHeight = $(card).height();
 
 			//gets image height from object data as image not visible to be 
 			//measured at time measurement occurs
@@ -105,43 +125,120 @@ $(document).ready(function() {
 			//and come back, the cards will retain the image data and throw
 			// off the height of above and screw up the display
 			//I spent over 3 hours trying to find this bug
-			//I think this is a hack and is stupid, but it works, so that trumps
-			gifCard.prepend(gifImage);
-			
+			//Seems that it was an issue where before rendering the first time
+			//the image wasn't loaded, but on going back to the page the images
+			//were pulled from the cache and threw off the sizing
+			card.prepend(cardImage);
 		};
+		//add the two values together to get the average height for cards
 		var cardHeightSet = cardImgHeight + cardHeightMax;
-
-
-		$(".card").css({'height':cardHeightSet});
-		cardHeightMax = 0;
-		cardImgHeight = 0;
+		//Set the height on the cards. Width is automatic due to gif choice above
+		$(".card").css({'height':cardHeightSet, 'width': '200px'});
 	}		
 	
+	function displayMoviesInfo() {
+		//generates the card
+		cardGen();
+		//gets the title info
+		var title = result.Title;
+		//gets the rating info
+		var rating = result.Rated;
+		//gets the plot
+		var plot = result.Plot;
+		//gets the poster url
+		var poster = result.Poster;
+		//updates card image with poster info
+		cardImage.attr("src", poster); 
+		//sets the alt for the image to the movie title
+		cardImage.attr("alt", title);
+		//movie title element
+		var movieTitle = $("<h5 class='card-body'>").text(title);
+		//movie rating element
+		var ratingMovie = $("<p class='card-text'>").text("Rating: " + rating);
+		//movie rating element
+		var plotMovie = $("<p class='card-text'>").text("Plot: " + plot);
+		//add title and rating to card
+		cardBody.append(movieTitle, ratingMovie, plotMovie);
+		//add card body to card
+		card.append(cardBody);
+		//add image to card
+		card.prepend(cardImage);
+		//add card to page
+		$("#data-view").prepend(card);
+		//add class for mouse hover to check for
+		card.addClass("divTrans");
+		//CSS for movie cards
+		$(".card").css({"width": "300px", "height": "650px", "overflow": "hidden"});
+		//CSS to set movie image to fit within card
+		$("img.card-img-top").css('width', '298px');
+	}
 	
-
+	function displayGamesInfo() {
+		//generates the card
+		cardGen();
+		//gets the title info
+		var title = result.results.name;
+		//gets the rating info
+		var rating = result.results.original_game_rating[0].name;
+		//gets the plot
+		var plot = result.results.deck;
+		//gets the poster url
+		var cover = result.results.image.small_url;
+		//updates card image with poster info
+		cardImage.attr("src", cover); 
+		//sets the alt for the image to the movie title
+		cardImage.attr("alt", title);
+		//movie title element
+		var gameTitle = $("<h5 class='card-body'>").text(title);
+		//movie rating element
+		var ratingGame = $("<p class='card-text'>").text("Rating: " + rating);
+		//movie rating element
+		var plotGame = $("<p class='card-text'>").text("Plot: " + plot);
+		//add title and rating to card
+		cardBody.append(gameTitle, ratingMovie, plotMovie);
+		//add card body to card
+		card.append(cardBody);
+		//add image to card
+		card.prepend(cardImage);
+		//add card to page
+		$("#data-view").prepend(card);
+		//add class for mouse hover to check for
+		card.addClass("divTrans");
+		//CSS for movie cards
+		$(".card").css({"width": "300px", "height": "650px", "overflow": "hidden", "z-index": "1"});
+		//CSS to set movie image to fit within card
+		$("img.card-img-top").css('width', '298px');
+	}
 	
-	function ajaxCall(query){
+	//Function to make the ajax call for the api
+	function ajaxCall(query, type){
 		$.ajax({
           url: query,
           method: "GET"
         }).then(function(response) {
-			result=response.data;
-			generateMatrix();
-				
+			if (type =="gif"){
+				result=response.data;
+				generateMatrix();			
+			} else if (type == "movies"){
+				result=response;
+				displayMoviesInfo();
+			} else {
+				displayGamesInfo();
+			}
 		});
 	}
 	
 	// function that makes the ajax call to Giphy and then calls generateMatrix upon data receipt
 	
 	function displayGif() {
+		//appends offset gifs above existing ones
 		if (gif == $(this).data("name")){
 			var limit = "limit=10&offset=" + offset;
 			offset+=10;
 
 		} else {
-			//clears any existing gifs, to start fresh, goes here or resets view
-			//when adding offset gifs
-			$("#gif-view").empty();
+			//clears any existing gifs, to start fresh if changing subject
+			$("#data-view").empty();
 			gif = $(this).data("name");
 			var limit = "limit=10";
 			offset = 10;
@@ -150,7 +247,23 @@ $(document).ready(function() {
 		
 		var apiKey = "v3q7CXIe6uAx1Ua1TPclHLT9oZ6dJMct";
 		var queryURL = "https://api.giphy.com/v1/gifs/search?q="+gif+"&api_key="+apiKey+"&"+limit;
-		ajaxCall(queryURL);
+		ajaxCall(queryURL, "gif");
+
+	}
+	
+	// function that makes the ajax call to OMDB and then calls displayMovieGame //upon data receipt
+	function displayMovies() {
+		var movie = $(this).data("name");
+		var apiKey = "dedeeaf2";
+		 var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=" + apiKey;
+		 ajaxCall(queryURL, "movies");
+	}
+	
+	function displayGames() {
+		var game = $(this).data("name");
+		var apiKey = "3e24742f056a71949bb895cc5fc212188c70a6ee";
+		 var queryURL = "https://www.giantbomb.com/api/search/?api_key=&" + apiKey +"format=json&query='" + game + "'&resources=game";
+		 ajaxCall(queryURL, "games");
 	}
 	
 	//Event listner for nav links
@@ -161,22 +274,31 @@ $(document).ready(function() {
 		$(".sr-only").text("")
 		$("a").removeClass("active");
 		$("span").removeClass("sr-only");
+		$("#data-view").empty();
 		
 		switch(clicked) {
 			case "nav-gif":
 				$(this).addClass("active");
 				$("#gif-span").addClass("sr-only");
 				$("#gif-span").text("(current)");
+				renderGifButtons();
+				addBtnArr = "topicsGif";
 				break;
 			case "nav-movies":
 				$(this).addClass("active");
 				$("#movies-span").addClass("sr-only");
 				$("#movies-span").text("(current)");
+				renderMoviesButtons();
+				addBtnArr = "titlesMovies";
 				break;
 			case "nav-games":
 				$(this).addClass("active");
 				$("#games-span").addClass("sr-only");
 				$("#games-span").text("(current)");
+				renderGamesButtons();
+				addBtnArr = "titlesGames";
+				break;
+			default:
 				break;
 		}
 	});
@@ -184,6 +306,12 @@ $(document).ready(function() {
 
 	// Adding a click event listener to all elements with a class of "gif-btn" and calls display function
 	$(document).on("click", ".gif-btn", displayGif);
+	
+	// Adding a click event listener to all elements with a class of "gif-btn" and calls display function
+	$(document).on("click", ".movies-btn", displayMovies);
+	
+	// Adding a click event listener to all elements with a class of "gif-btn" and calls display function
+	$(document).on("click", ".games-btn", displayGames);
 
 	$(document).on("click", ".gif", function() {
 	// One really should use .attr even though .data works. But it will not update
@@ -200,19 +328,46 @@ $(document).ready(function() {
 		}
 	});
 	
-	// This function handles events for adding a gif subject
-      $("#add-gif").on("click", function(event) {
+	// This function handles events for adding a new subject or title
+      $("#add-btn").on("click", function(event) {
         event.preventDefault();
         // This line grabs the input from the textbox
-        var gifAdd = $("#add-gif-input").val().trim();
-		if (gifAdd == "") {return;}
-		$("#add-gif-input").val("");
+        var btnAdd = $("#add-btn-input").val().trim();
+		if (btnAdd == "") {return;}
+		$("#add-btn-input").val("");
 		//adds gif to the array
-		topicsGif.push(gifAdd);
+		switch(addBtnArr){
+			case "topicsGif":
+				topicsGif.push(btnAdd);
+				renderGifButtons();
+				break;
+			case "titlesMovies":
+				titlesMovies.push(btnAdd);
+				renderMoviesButtons();
+				break;
+			case "titlesGames":
+				titlesGames.push(btnAdd);
+				renderGamesButtons();
+				break;
+			default:
+				break;
+		}
 		//Render buttons again with new one
-		renderButtons();
 	  });
 	  
-	//Starts the party by rendering the buttons on the window
-	renderButtons();
+	//Listener for hover on plot summary to expand, makes everything jumpy.
+	//At this time I don't have a working solution to the jumpiness
+	//Negative margin and padding fix some of it, except on the bottom one
+	$(document).on({
+		mouseenter: function () {
+			$(this).css({"height": "auto", "margin-bottom": "-300px", "padding-bottom": "200px", "z-index": "2"});
+			$(".main").css("height", "100%");
+		},
+		mouseleave: function () {
+			$(this).css({"height": "650px", "margin-bottom": "0", "z-index": "1","padding-bottom": "0"});
+		}
+	}, ".divTrans");
+	  
+	//Starts the party by rendering the GIF buttons on the window
+	renderGifButtons();
 });
