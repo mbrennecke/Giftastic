@@ -79,3 +79,8 @@ h1.navbar-brand {
 #data-view {
 	margin: 0 auto;
 }
+
+.main {
+	display: flex;
+	flex-flow: row wrap;
+}

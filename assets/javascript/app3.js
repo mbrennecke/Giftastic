@@ -47,7 +47,7 @@ $(document).ready(function() {
 	 
 	 //generates generic card with classes
 	 function cardGen(){
-		 card = $("<div class='card float-left'>");
+		 card = $("<div class='card'>");
 		 cardImage = $("<img class='card-img-top'>");
 		 cardBody = $("<div class='card-body'>");
 	 }
