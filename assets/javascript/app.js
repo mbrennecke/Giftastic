@@ -177,13 +177,13 @@ $(document).ready(function() {
 		//generates the card
 		cardGen();
 		//gets the title info
-		var title = result.results.name;
+		var title = result.results[0].name;
 		//gets the rating info
-		var rating = result.results.original_game_rating[0].name;
+		var rating = result.results[0].original_game_rating[0].name;
 		//gets the plot
-		var plot = result.results.deck;
+		var plot = result.results[0].deck;
 		//gets the poster url
-		var cover = result.results.image.small_url;
+		var cover = result.results[0].image.small_url;
 		//updates card image with poster info
 		cardImage.attr("src", cover); 
 		//sets the alt for the image to the movie title
@@ -195,7 +195,7 @@ $(document).ready(function() {
 		//movie rating element
 		var plotGame = $("<p class='card-text'>").text("Plot: " + plot);
 		//add title and rating to card
-		cardBody.append(gameTitle, ratingMovie, plotMovie);
+		cardBody.append(gameTitle, ratingGame, plotGame);
 		//add card body to card
 		card.append(cardBody);
 		//add image to card
@@ -222,9 +222,9 @@ $(document).ready(function() {
 			} else if (type == "movies"){
 				result=response;
 				displayMoviesInfo();
-			} else {
-				displayGamesInfo();
-			}
+			}// else {
+			//	displayGamesInfo();
+		//	}
 		});
 	}
 	
@@ -258,12 +258,26 @@ $(document).ready(function() {
 		 var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=" + apiKey;
 		 ajaxCall(queryURL, "movies");
 	}
-	
+
+
+	//this function has to be parsed differently due to the CORS and the way that 
+	//giantbomb handles api requests. 
+	//Thanks to NukaPunk on GitHubGist for the code that allowed me to do this 
+	//https://gist.github.com/NukaPunk/665c20fb5aec492b310b
 	function displayGames() {
 		var game = $(this).data("name");
 		var apiKey = "3e24742f056a71949bb895cc5fc212188c70a6ee";
-		 var queryURL = "https://www.giantbomb.com/api/search?api_key=" + apiKey +"&format=json&query='" + game + "'&resources=game";
-		 ajaxCall(queryURL, "games");
+		$.ajax ({
+			type: 'GET',
+			dataType: 'jsonp',
+			crossDomain: true,
+			jsonp: 'json_callback',
+			url: "https://www.giantbomb.com/api/search/?format=jsonp&api_key=" +apiKey+ "&query=" +game+"&resources=game"
+		}).then(function(data) {
+			result = data;
+			displayGamesInfo();
+		});
+
 	}
 	
 	//Event listner for nav links

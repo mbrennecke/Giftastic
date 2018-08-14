@@ -1,5 +1,0 @@
-#ddd78d - yellow
-#dcbf85 - golder
-#8b635c - brownish
-#60594d - grayish/blackish
-#93a29b - greener gray
