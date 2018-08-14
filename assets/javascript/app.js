@@ -131,7 +131,7 @@ $(document).ready(function() {
 			card.prepend(cardImage);
 		};
 		//add the two values together to get the average height for cards
-		var cardHeightSet = cardImgHeight + cardHeightMax;
+		var cardHeightSet = cardImgHeight + cardHeightMax + 100;
 		//Set the height on the cards. Width is automatic due to gif choice above
 		$(".card").css({'height':cardHeightSet, 'width': '200px'});
 	}		
