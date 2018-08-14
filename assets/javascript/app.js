@@ -285,7 +285,7 @@ $(document).ready(function() {
 		var clicked = event.target.id;
 		var addToA = $(this);
 		var addToSpan;
-		$(".sr-only").text("")
+		$(".sr-only").text("");
 		$("a").removeClass("active");
 		$("span").removeClass("sr-only");
 		$("#data-view").empty();
