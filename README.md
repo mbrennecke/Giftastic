@@ -13,3 +13,7 @@ This project is useful for learning javascript and jQuery for making api calls.
 ## Who maintains this project
 
 This project is maintained by Matthew Brennecke mbrennecke10@gmail.com
+
+## Link to deployed project
+
+https://mbrennecke.github.io/Giftastic/
